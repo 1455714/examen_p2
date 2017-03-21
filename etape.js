@@ -31,23 +31,21 @@ app.get('/',  (req, res) => {
     }) 
 })
 
-//lorsqu'on ajoute une adresse
+//lorsqu'on affiche le fichier json
 app.get('/fichier',  (req, res) => {
-    console.log(__dirname + "/public/text/" + "collection_provinces.json");
      res.sendFile( __dirname + "/public/text/" + "collection_provinces.json" );
   //res.sendFile( __dirname + "/" + "04_form.htm" );
 })
 
-//lorsqu'on ajoute une adresse
+//lorsqu'on affiche le fichier json dans un tableau
 app.get('/provinces',  (req, res) => {
     fs.readFile( __dirname + "/public/text/" + "collection_provinces.json", 'utf8', function (err, data) {
-       console.log( data );
         res.render('index.ejs', {carnet: JSON.parse(data)})
       // res.end(data);
    });
 })
 
-//lorsqu'on ajoute une adresse
+//lorsqu'on affiche la collection
 app.get('/collection',  (req, res) => {
     var cursor = db.collection('carnet-provinces').find().toArray(function(err, resultat){
        if (err) return console.log(err)
@@ -55,4 +53,13 @@ app.get('/collection',  (req, res) => {
         res.render('index.ejs', {carnet: resultat})
 
     }) 
+})
+
+//lorsqu'on ajoute une adresse
+app.get('/ajouter',  (req, res) => {
+    db.collection('carnet-provinces').save({code:"QC",nom:"Québec",capital:"Québec"}, (err, result) => {
+      if (err) return console.log(err)
+      console.log('sauvegarder dans la BD')
+      res.redirect('index.ejs', {carnet: result})
+    })
 })
