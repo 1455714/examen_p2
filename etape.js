@@ -24,7 +24,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/carnet-provinces', (err, database
 app.get('/',  (req, res) => {
    console.log('la route route get / = ' + req.url)
    //récupère la bdd
-    var cursor = db.collection('carnet-provinces').find().toArray(function(err, resultat){
+    var cursor = db.collection('provinces').find().toArray(function(err, resultat){
        if (err) return console.log(err)
     // affiche le contenu de la BD
     res.render('index.ejs', {carnet: resultat})
@@ -47,7 +47,7 @@ app.get('/provinces',  (req, res) => {
 
 //lorsqu'on affiche la collection
 app.get('/collection',  (req, res) => {
-    var cursor = db.collection('carnet-provinces').find().toArray(function(err, resultat){
+    var cursor = db.collection('provinces').find().toArray(function(err, resultat){
        if (err) return console.log(err)
         // affiche le contenu de la BD
         res.render('index.ejs', {carnet: resultat})
@@ -60,7 +60,7 @@ app.get('/ajouter',  (req, res) => {
     //génère un chiffre aléatoire
     rnd = Math.ceil(Math.random()*100+100);
     //ajout d'un document
-    db.collection('carnet-provinces').save({code:"QC",nom:"Québec",capital:rnd}, (err, result) => {
+    db.collection('provinces').save({code:"QC",nom:"Québec",capital:rnd}, (err, result) => {
       if (err) return console.log(err)
       console.log('sauvegarder dans la BD')
       //retourne à la collection
@@ -71,7 +71,7 @@ app.get('/ajouter',  (req, res) => {
 //lorsqu'on supprime les adresses
 app.get('/detruire',  (req, res) => {
     //suprrime tous les documents
-    db.collection('carnet-provinces').remove({}, (err, result) => {
+    db.collection('provinces').remove({}, (err, result) => {
       if (err) return console.log(err)
       console.log('sauvegarder dans la BD')
       //retourne à la collectiob
@@ -87,7 +87,7 @@ app.get('/ajoutTous',  (req, res) => {
         //le convertit en json
         data=JSON.parse(data);
         //l'ajoute dans la db
-        db.collection('carnet-provinces').insertMany(data, (err, result) => {
+        db.collection('provinces').insertMany(data, (err, result) => {
           if (err) return console.log(err)
           console.log('sauvegarder dans la BD')
           res.redirect('/collection')
