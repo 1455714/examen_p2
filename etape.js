@@ -63,3 +63,12 @@ app.get('/ajouter',  (req, res) => {
       res.redirect('/collection')
     })
 })
+
+//lorsqu'on supprime les adresses
+app.get('/detruire',  (req, res) => {
+    db.collection('carnet-provinces').remove({}, (err, result) => {
+      if (err) return console.log(err)
+      console.log('sauvegarder dans la BD')
+      res.redirect('/collection')
+    })
+})
