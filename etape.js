@@ -73,3 +73,20 @@ app.get('/detruire',  (req, res) => {
       res.redirect('/collection')
     })
 })
+
+//lorsqu'on supprime les adresses
+app.get('/ajoutTous',  (req, res) => {
+    dataJson="";
+    //va chercher le fichier json
+    fs.readFile( __dirname + "/public/text/" + "collection_provinces.json", 'utf8', function (err, data) {
+        //le convertit en json
+        data=JSON.parse(data);
+        //l'ajoute dans la db
+        db.collection('carnet-provinces').insertMany(data, (err, result) => {
+          if (err) return console.log(err)
+          console.log('sauvegarder dans la BD')
+          res.redirect('/collection')
+        })
+      // res.end(data);
+   });
+})
