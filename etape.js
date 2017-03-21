@@ -60,6 +60,6 @@ app.get('/ajouter',  (req, res) => {
     db.collection('carnet-provinces').save({code:"QC",nom:"Québec",capital:"Québec"}, (err, result) => {
       if (err) return console.log(err)
       console.log('sauvegarder dans la BD')
-      res.redirect('index.ejs', {carnet: result})
+      res.redirect('/collection')
     })
 })
