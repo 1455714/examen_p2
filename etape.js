@@ -11,6 +11,7 @@ app.use(bodyParser.json())  // pour traiter les données JSON
 
 var db // variable qui contiendra le lien sur la BD
 
+//connexion à la base de données
 MongoClient.connect('mongodb://127.0.0.1:27017/carnet-provinces', (err, database) => {
   if (err) return console.log(err)
   db = database
@@ -34,7 +35,6 @@ app.get('/',  (req, res) => {
 //lorsqu'on affiche le fichier json
 app.get('/fichier',  (req, res) => {
      res.sendFile( __dirname + "/public/text/" + "collection_provinces.json" );
-  //res.sendFile( __dirname + "/" + "04_form.htm" );
 })
 
 //lorsqu'on affiche le fichier json dans un tableau
@@ -57,19 +57,24 @@ app.get('/collection',  (req, res) => {
 
 //lorsqu'on ajoute une adresse
 app.get('/ajouter',  (req, res) => {
+    //génère un chiffre aléatoire
     rnd = Math.ceil(Math.random()*100+100);
+    //ajout d'un document
     db.collection('carnet-provinces').save({code:"QC",nom:"Québec",capital:rnd}, (err, result) => {
       if (err) return console.log(err)
       console.log('sauvegarder dans la BD')
+      //retourne à la collection
       res.redirect('/collection')
     })
 })
 
 //lorsqu'on supprime les adresses
 app.get('/detruire',  (req, res) => {
+    //suprrime tous les documents
     db.collection('carnet-provinces').remove({}, (err, result) => {
       if (err) return console.log(err)
       console.log('sauvegarder dans la BD')
+      //retourne à la collectiob
       res.redirect('/collection')
     })
 })
@@ -87,6 +92,5 @@ app.get('/ajoutTous',  (req, res) => {
           console.log('sauvegarder dans la BD')
           res.redirect('/collection')
         })
-      // res.end(data);
    });
 })
