@@ -57,7 +57,8 @@ app.get('/collection',  (req, res) => {
 
 //lorsqu'on ajoute une adresse
 app.get('/ajouter',  (req, res) => {
-    db.collection('carnet-provinces').save({code:"QC",nom:"Québec",capital:"Québec"}, (err, result) => {
+    rnd = Math.ceil(Math.random()*100+100);
+    db.collection('carnet-provinces').save({code:"QC",nom:"Québec",capital:rnd}, (err, result) => {
       if (err) return console.log(err)
       console.log('sauvegarder dans la BD')
       res.redirect('/collection')
